@@ -2,12 +2,12 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const gallery = document.querySelector(".gallery")
-const loaderOverlay = document.getElementById('loader-overlay'); 
+const loaderOverlay = document.getElementById("loader-overlay"); 
 
 function createMarkup(image) {
     return `
         <li class="gallery-item">
-            <a href="${image.largeImageURL}" class="gallery-link" alt="${image.tags}"> 
+            <a href="${image.largeImageURL}" class="gallery-link"> 
                 <img src="${image.webformatURL}" 
                      alt="${image.tags}" 
                      class="gallery-image">
@@ -22,15 +22,19 @@ function createMarkup(image) {
     `;
 }
 
+const lightbox = new SimpleLightbox(".gallery a", {
+    captionsData: 'alt', 
+    captionDelay: 250,
+});
+
+
 export function createGallery(images) {
     const markup = images.map(createMarkup).join('');
     gallery.insertAdjacentHTML('beforeend', markup);
 
-    new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250,
-    }).refresh();
+    lightbox.refresh();
 }
+
 
 export function clearGallery() {
     gallery.innerHTML = '';
